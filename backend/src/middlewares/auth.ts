@@ -26,7 +26,7 @@ export default {
       return responseStatus.send(res);
     }
 
-    const emailExist = await UserModel.findOne({ email });
+    const emailExist:any = await UserModel.findOne({ email });
     if (emailExist) {
       responseStatus.setError(403, 'Email already exists');
       return responseStatus.send(res);
@@ -80,12 +80,12 @@ export default {
           return responseStatus.send(res);
       }
 
-      req.currentUser = {
+      req.currentUser= {
         ID: decodedToken.userID,
       };
 
       return next();
-    } catch (error) {
+    } catch (error:any) {
       if (error.message && error.message.includes('jwt')) {
         responseStatus.setError(401, 'Invalid token or token has expired');
         return responseStatus.send(res);

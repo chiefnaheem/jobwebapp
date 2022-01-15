@@ -20,7 +20,7 @@ schema.virtual('jobs', {
 })
 
 schema.methods.toJSON = function () {
-  const user = this
+  const user:any = this
   const userObject = user.toObject()
 
   delete userObject.password;

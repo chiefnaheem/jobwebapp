@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import createError, { HttpError } from 'http-errors';
 import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
@@ -5,7 +6,8 @@ import path from 'path';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import indexRouter from './routes/index';
-import connectDB from './database/mongoConnect';
+// import connectDB from './database/mongoConnect';
+import {connectDB, connectTestDB} from './database/mongoConnect'
 import cors from 'cors';
 
 dotenv.config();
@@ -29,6 +31,14 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1', indexRouter);
 
+console.log(process.env.NODE_ENV)
+
+if(process.env.NODE_ENV === 'test'){
+  connectTestDB()
+}
+else{
+  connectDB()
+}
 connectDB();
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

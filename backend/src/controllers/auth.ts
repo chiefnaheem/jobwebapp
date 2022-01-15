@@ -7,7 +7,7 @@ const responseStatus = new ResponseStatus();
 
 export async function signup(req: Request, res: Response): Promise<Response> {
   const { password } = req.body;
-  const hashPassword: string = Validator.hashPassword(password);
+  const hashPassword = Validator.hashPassword(password);
 
   const data = {
     name: req.body.name,
@@ -17,7 +17,7 @@ export async function signup(req: Request, res: Response): Promise<Response> {
   };
 
   try {
-    const User = new UserModel(data);
+    const User:any = new UserModel(data);
     const user = await User.save();
     const token: string = Validator.generateToken(user._id);
     responseStatus.setSuccess(201, 'successful', { user, token});

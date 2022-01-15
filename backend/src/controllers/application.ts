@@ -12,7 +12,7 @@ export async function createApplication(req:Request,res:Response): Promise<Respo
     try {
         const { title,name,email,coverletter, resume}:Application = req.body
         const objJobId = mongoose.Types.ObjectId(req.params.jobId)
-        const application = new ApplicationModel({
+        const application:any = new ApplicationModel({
             userID: req.currentUser.ID,
             jobID: objJobId,
             title,
@@ -25,7 +25,7 @@ export async function createApplication(req:Request,res:Response): Promise<Respo
         await JobModel.findByIdAndUpdate(objJobId, { $inc: {noOfApplications: 1}})
         responseStatus.setSuccess(201, 'Successful', resData);
         return responseStatus.send(res)
-    } catch (error) {
+    } catch (error:any) {
             if (error.message.includes('duplicate')) {
                 responseStatus.setError(401, 'User already applied for this job');
                 return responseStatus.send(res); 
@@ -33,39 +33,7 @@ export async function createApplication(req:Request,res:Response): Promise<Respo
             responseStatus.setError(500, 'internal server error');
             return responseStatus.send(res);
         }
-// =======
-//   export async function createApplication(
-//     req: Request,
-//     res: Response
-//   ): Promise<Response> {
-//     try {
-//       const { title, name, email, coverletter }: Application = req.body;
-//       const objJobId = mongoose.Types.ObjectId(req.params.jobId);
-//       const application = new ApplicationModel({
-//         userID: req.currentUser.ID,
-//         jobID: objJobId,
-//         title,
-//         name,
-//         email,
-//         coverletter,
-//       });
-//       const resData = await application.save();
-//       await JobModel.findByIdAndUpdate(objJobId, {
-//         $inc: { noOfApplications: 1 },
-//       });
-//       responseStatus.setSuccess(201, 'Successful', resData);
-//       return responseStatus.send(res);
-//     } catch (error) {
-//       if (error.message.includes('duplicate')) {
-//         responseStatus.setError(401, 'User already applied for this job');
-//         return responseStatus.send(res);
-//       }
-//       responseStatus.setError(500, 'internal server error');
-//       return responseStatus.send(res);
-//     }
-//   >>>>>>> main
-  }
-
+      }
 export async function getAllApplications(
   req: Request,
   res: Response
@@ -106,7 +74,7 @@ export async function getApplicationsByJobId(
     }
     responseStatus.setSuccess(200, 'Successful', data);
     return responseStatus.send(res);
-  } catch (error) {
+  } catch (error:any) {
     if (error.message.includes('hex')) {
       responseStatus.setError(400, 'Bad request, please provide valid ID');
       return responseStatus.send(res);
@@ -137,7 +105,7 @@ export async function getApplicationsByUserId(
     }
     responseStatus.setSuccess(200, 'Successful', data);
     return responseStatus.send(res);
-  } catch (error) {
+  } catch (error:any) {
     if (error.message.includes('hex')) {
       responseStatus.setError(400, 'Bad request, please provide valid ID');
       return responseStatus.send(res);

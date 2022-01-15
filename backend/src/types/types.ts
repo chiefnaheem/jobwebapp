@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 interface User {
+    _id? : mongoose.Types.ObjectId
     id?: mongoose.Types.ObjectId
     name: string;
     email: string;
